@@ -10,4 +10,7 @@ else ifeq ($(PLATFORM), STM32F4)
 else ifeq ($(PLATFORM), STM32F7)
 	INCLUDES += -I$(CMSIS_DIR)/Core/Include
 	INCLUDES += -I$(CMSIS_DIR)/Device/ST/STM32F7xx/Include
+else ifeq ($(PLATFORM), STM32H7)
+	INCLUDES += -I$(CMSIS_DIR)/Core/Include
+	INCLUDES += -I$(CMSIS_DIR)/Device/ST/STM32H7xx/Include
 endif
