@@ -31,7 +31,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+/* 定义 DMA 完成标志位 */
+uint32_t dma_tx_complete = 0;
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -59,6 +60,14 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define BLUE_LED_Pin GPIO_PIN_13
 #define BLUE_LED_GPIO_Port GPIOC
+#define RES_Pin GPIO_PIN_0
+#define RES_GPIO_Port GPIOA
+#define DC_Pin GPIO_PIN_1
+#define DC_GPIO_Port GPIOA
+#define CS_Pin GPIO_PIN_2
+#define CS_GPIO_Port GPIOA
+#define BLK_Pin GPIO_PIN_3
+#define BLK_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
