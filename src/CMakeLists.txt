@@ -37,20 +37,20 @@ set(PROJ_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/libraries)
 
 # common libraries
 add_subdirectory(${PROJ_LIB_PATH}/CMSIS ${CMAKE_BINARY_DIR}/libraries/CMSIS)
-add_subdirectory(${PROJ_LIB_PATH}/STM32F1xx_HAL_Driver ${CMAKE_BINARY_DIR}/libraries/STM32F1xx_HAL_Driver)
+add_subdirectory(${PROJ_LIB_PATH}/STM32H7xx_HAL_Driver ${CMAKE_BINARY_DIR}/libraries/STM32H7xx_HAL_Driver)
 
 # STM32CubeMX generated source files
 set(CUBEMX_SRC
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/gpio.c
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/main.c
-    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32f1xx_it.c
-    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/sys.c
-    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/system_stm32f1xx.c
-    ${STM32_PROJ_FOLDER}/cubemx/startup_stm32f103xb.s
+    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_it.c
+    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_hal_msp.c
+    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/system_stm32h7xx.c
+    ${STM32_PROJ_FOLDER}/cubemx/startup_stm32h743xx.s
 )
 add_executable(${ELF_TARGET} ${CUBEMX_SRC})
 target_compile_definitions(${ELF_TARGET} PUBLIC -D${MCU_FAMILY})
-target_link_libraries(${ELF_TARGET} PUBLIC cmsis stm32f1xx_hal -lc -lm -lnosys)
+target_link_libraries(${ELF_TARGET} PUBLIC cmsis stm32h7xx_hal -lc -lm -lnosys)
 target_link_libraries(${ELF_TARGET} PRIVATE -T${LINKER_SCRIPT} ${EXTRA_LINK_FLAGS})
 target_include_directories(${ELF_TARGET} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Core/Inc>)
