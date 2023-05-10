@@ -13,4 +13,5 @@ else ifeq ($(PLATFORM), STM32F7)
 else ifeq ($(PLATFORM), STM32H7)
 	INCLUDES += -I$(CMSIS_DIR)/Core/Include
 	INCLUDES += -I$(CMSIS_DIR)/Device/ST/STM32H7xx/Include
+	INCLUDES += -I$(CMSIS_DIR)/Device/ST/STM32H7xx/RTOS/Template
 endif

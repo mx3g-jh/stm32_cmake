@@ -23,7 +23,7 @@ set(VERSION_MAJOR 0 CACHE STRING "Project major version number.")
 set(VERSION_MINOR 1 CACHE STRING "Project minor version number.")
 set(VERSION_PATCH 0 CACHE STRING "Project patch version number.")
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Core/Inc)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Core/Inc ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F)
 if(USE_SYSTEM_VIEW)
 add_definitions("-DENABLE_SYSTEMVIEW")
 endif()
@@ -43,18 +43,34 @@ add_subdirectory(${PROJ_LIB_PATH}/STM32H7xx_HAL_Driver ${CMAKE_BINARY_DIR}/libra
 set(CUBEMX_SRC
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/gpio.c
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/main.c
+    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/spi.c
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_it.c
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_hal_msp.c
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/system_stm32h7xx.c
     ${STM32_PROJ_FOLDER}/cubemx/startup_stm32h743xx.s
+    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/system_stm32h7xx.c
+    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/freertos.c
+    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_hal_timebase_tim.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/croutine.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/list.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/queue.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/tasks.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/timers.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
+    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
 )
+
 add_executable(${ELF_TARGET} ${CUBEMX_SRC})
 target_compile_definitions(${ELF_TARGET} PUBLIC -D${MCU_FAMILY})
 target_link_libraries(${ELF_TARGET} PUBLIC cmsis stm32h7xx_hal -lc -lm -lnosys)
 target_link_libraries(${ELF_TARGET} PRIVATE -T${LINKER_SCRIPT} ${EXTRA_LINK_FLAGS})
 target_include_directories(${ELF_TARGET} PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Core/Inc>)
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Core/Inc ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F>)
 
 ## add post-build targets
 include(${STM32_CMAKE_DIR}/cmake/stm32-gcc-postbuild.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/stm32-gcc-jlink.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/stm32-gcc-stlink.cmake)
