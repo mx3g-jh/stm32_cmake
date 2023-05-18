@@ -87,8 +87,8 @@
 #include "stm32h7xx_hal.h"
 #include "gpio.h"
 #include "main.h"
-#include "FreeRTOS.h"
-#include "task.h"
+// #include "FreeRTOS.h"
+// #include "task.h"
 #include "spi.h"
 
 #define ILI9341_SCREEN_HEIGHT 240 

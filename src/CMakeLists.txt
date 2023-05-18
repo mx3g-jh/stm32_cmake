@@ -25,12 +25,12 @@ set(VERSION_PATCH 0 CACHE STRING "Project patch version number.")
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Core/Inc 
-    ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include 
-    ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 
-    ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-    ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/app/ILI9341
+    # ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include 
+    # ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 
+    # ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    # ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/app/ILI9341
     ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/app/ili9341
-    ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/app/ssd1306
+    # ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/app/ssd1306
     ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/lib/lvgl/drivers
     ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/lib/lvgl/lvgl/demos
     ${CMAKE_CURRENT_SOURCE_DIR}/${STM32_PROJ_FOLDER}/lib/lvgl/lvgl/demos/widgets
@@ -66,32 +66,31 @@ set(CUBEMX_SRC
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_hal_msp.c
     ${STM32_PROJ_FOLDER}/cubemx/Core/Src/system_stm32h7xx.c
     ${STM32_PROJ_FOLDER}/cubemx/startup_stm32h743xx.s
-    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/system_stm32h7xx.c
-    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/freertos.c
-    ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_hal_timebase_tim.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/croutine.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/list.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/queue.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/tasks.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/timers.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Core/Src/freertos.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Core/Src/stm32h7xx_hal_timebase_tim.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/croutine.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/list.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/queue.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/tasks.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/timers.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
+    # ${STM32_PROJ_FOLDER}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
 )
 
 # drivers generated source files
 set(DRIVERS_SRC
-    ${STM32_PROJ_FOLDER}/app/ILI9341/ILI9341_GFX.c
-    ${STM32_PROJ_FOLDER}/app/ILI9341/ILI9341_STM32_Driver.c
-    ${STM32_PROJ_FOLDER}/app/ILI9341/ILI9341_Touchscreen.c
+    # ${STM32_PROJ_FOLDER}/app/ILI9341/ILI9341_GFX.c
+    # ${STM32_PROJ_FOLDER}/app/ILI9341/ILI9341_STM32_Driver.c
+    # ${STM32_PROJ_FOLDER}/app/ILI9341/ILI9341_Touchscreen.c
     ${STM32_PROJ_FOLDER}/app/ili9341/fonts.c
     ${STM32_PROJ_FOLDER}/app/ili9341/ili9341_touch.c
     ${STM32_PROJ_FOLDER}/app/ili9341/ili9341.c
-    ${STM32_PROJ_FOLDER}/app/ssd1306/ssd1306_fonts.c
-    ${STM32_PROJ_FOLDER}/app/ssd1306/ssd1306_tests.c
-    ${STM32_PROJ_FOLDER}/app/ssd1306/ssd1306.c
+    # ${STM32_PROJ_FOLDER}/app/ssd1306/ssd1306_fonts.c
+    # ${STM32_PROJ_FOLDER}/app/ssd1306/ssd1306_tests.c
+    # ${STM32_PROJ_FOLDER}/app/ssd1306/ssd1306.c
 )
 
 set(LIBS_SRC
@@ -359,12 +358,12 @@ target_link_libraries(${ELF_TARGET} PRIVATE -T${LINKER_SCRIPT} ${EXTRA_LINK_FLAG
 target_include_directories(${ELF_TARGET} PUBLIC
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Core/Inc 
-    ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include 
-    ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 
-    ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F 
-    ${CMAKE_CURRENT_SOURCE_DIR}/app/ILI9341
+    # ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include 
+    # ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 
+    # ${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F 
+    # ${CMAKE_CURRENT_SOURCE_DIR}/app/ILI9341
     ${CMAKE_CURRENT_SOURCE_DIR}/app/ili9341
-    ${CMAKE_CURRENT_SOURCE_DIR}/app/ssd1306
+    # ${CMAKE_CURRENT_SOURCE_DIR}/app/ssd1306
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/lvgl/drivers
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/lvgl/lvgl/demos
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/lvgl/lvgl/demos/widgets

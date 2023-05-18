@@ -12,7 +12,7 @@ void ILI9341_Unselect() {
 
 static void ILI9341_Reset() {
     HAL_GPIO_WritePin(ILI9341_RES_GPIO_Port, ILI9341_RES_Pin, GPIO_PIN_RESET);
-    osDelay(5);
+    HAL_Delay(5);
     HAL_GPIO_WritePin(ILI9341_RES_GPIO_Port, ILI9341_RES_Pin, GPIO_PIN_SET);
 }
 
@@ -66,12 +66,12 @@ static void ILI9341_SetAddressWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint
 void TFT_ILI9341_Init() {
     ILI9341_Select();
     ILI9341_Reset();
-   ILI9341_BLK_Set();
+    ILI9341_BLK_Set();
     // command list is based on https://github.com/martnak/STM32-ILI9341
 
     // SOFTWARE RESET
     ILI9341_WriteCommand(0x01);
-    osDelay(1000);
+    HAL_Delay(1000);
         
     // POWER CONTROL A
     ILI9341_WriteCommand(0xCB);
@@ -203,7 +203,7 @@ void TFT_ILI9341_Init() {
 
     // EXIT SLEEP
     ILI9341_WriteCommand(0x11);
-    osDelay(120);
+    HAL_Delay(120);
 
     // TURN ON DISPLAY
     ILI9341_WriteCommand(0x29);

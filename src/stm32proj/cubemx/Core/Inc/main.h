@@ -33,6 +33,8 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
 #include "lvgl.h"
+#include "lv_demos.h"
+#include "lv_port_disp.h"
 extern volatile bool spi3_transmit_complete;
 /* USER CODE END Includes */
 

@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "spi.h"
 #include "main.h"
-#include "FreeRTOS.h"
+// #include "FreeRTOS.h"
 // #define USE_DMA
 #define ILI9341_MADCTL_MY  0x80
 #define ILI9341_MADCTL_MX  0x40
@@ -33,15 +33,15 @@ extern SPI_HandleTypeDef ILI9341_SPI_PORT;
 #define ILI9341_BLK_Set() HAL_GPIO_WritePin(BLK_TFT_GPIO_Port, BLK_TFT_Pin, GPIO_PIN_SET)
 
 // default orientation
-// #define ILI9341_WIDTH  240
-// #define ILI9341_HEIGHT 320
-// #define ILI9341_ROTATION (ILI9341_MADCTL_MX | ILI9341_MADCTL_BGR)
+#define ILI9341_WIDTH  240
+#define ILI9341_HEIGHT 320
+#define ILI9341_ROTATION (ILI9341_MADCTL_MX | ILI9341_MADCTL_BGR)
 
 // rotate right
 // /*
-#define ILI9341_WIDTH  320
-#define ILI9341_HEIGHT 240
-#define ILI9341_ROTATION (ILI9341_MADCTL_MX | ILI9341_MADCTL_MY | ILI9341_MADCTL_MV | ILI9341_MADCTL_BGR)
+// #define ILI9341_WIDTH  320
+// #define ILI9341_HEIGHT 240
+// #define ILI9341_ROTATION (ILI9341_MADCTL_MX | ILI9341_MADCTL_MY | ILI9341_MADCTL_MV | ILI9341_MADCTL_BGR)
 // */
 
 // rotate left
