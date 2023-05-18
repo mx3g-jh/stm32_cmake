@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>  // For memcpy
+#include "main.h"
+#include "spi.h"
 
 #if defined(SSD1306_USE_I2C)
 
@@ -23,37 +25,41 @@ void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
 
 void ssd1306_Reset(void) {
     // CS = High (not selected)
-    HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET);
+    SSD1306_UnSelect();
 
     // Reset the OLED
-    HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_RESET);
+    SSD1306_RST_Clr();
     HAL_Delay(10);
-    HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_SET);
+    SSD1306_RST_Set();
     HAL_Delay(10);
 }
 
 // Send a byte to the command register
 void ssd1306_WriteCommand(uint8_t byte) {
-    HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
-    HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_RESET); // command
+    SSD1306_Select(); // select OLED
+    SSD1306_DC_Clr(); // command
+#ifdef USE_HAL
     HAL_SPI_Transmit(&SSD1306_SPI_PORT, (uint8_t *) &byte, 1, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
+#else
+    SPI1_BasicWrite(byte);
+    // LL_SPI_TransmitData8(SPI1,byte);
+#endif
+    SSD1306_UnSelect(); // un-select OLED
 }
 
 // Send data
 void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
-    HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
-    HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_SET); // data
-    // #ifdef USE_DMA
-    // while(HAL_SPI_GetState(&SSD1306_SPI_PORT) != HAL_SPI_STATE_READY);
-    // if (HAL_SPI_Transmit_DMA(&SSD1306_SPI_PORT, buffer, (uint16_t)sizeof(buffer)) != HAL_OK){
-    //         // HAL_SPI_Transmit_DMA(&SSD1306_SPI_PORT, buffer, buff_size);
-    // }
-
-    // #else
+    SSD1306_Select(); // select OLED
+    SSD1306_DC_Set(); // data
+   // #ifdef USE_DMA
+#ifdef USE_HAL
     HAL_SPI_Transmit(&SSD1306_SPI_PORT, buffer, buff_size, HAL_MAX_DELAY);
+#else
+    SPI1_WriteBytes(buffer,buff_size);
+#endif
+
     // #endif
-    HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
+    SSD1306_UnSelect(); // un-select OLED
 }
 
 #else
@@ -181,11 +187,15 @@ void ssd1306_Init(void) {
 
 /* Fill the whole screen with the given color */
 void ssd1306_Fill(SSD1306_COLOR color) {
-    uint32_t i;
+    // #ifndef USE_DMA
+        uint32_t i;
 
-    for(i = 0; i < sizeof(SSD1306_Buffer); i++) {
-        SSD1306_Buffer[i] = (color == Black) ? 0x00 : 0xFF;
-    }
+        for(i = 0; i < sizeof(SSD1306_Buffer); i++) {
+            SSD1306_Buffer[i] = (color == Black) ? 0x00 : 0xFF;
+        }
+    // #else
+    //     memset(OLED_DATA, ((color == Black) ? 0x00 : 0xFF), 1024);
+    // #endif
 }
 
 /* Write the screenbuffer with changed to the screen */
@@ -196,12 +206,18 @@ void ssd1306_UpdateScreen(void) {
     //  * 32px   ==  4 pages
     //  * 64px   ==  8 pages
     //  * 128px  ==  16 pages
-    for(uint8_t i = 0; i < SSD1306_HEIGHT/8; i++) {
-        ssd1306_WriteCommand(0xB0 + i); // Set the current RAM page address.
-        ssd1306_WriteCommand(0x00 + SSD1306_X_OFFSET_LOWER);
-        ssd1306_WriteCommand(0x10 + SSD1306_X_OFFSET_UPPER);
-        ssd1306_WriteData(&SSD1306_Buffer[SSD1306_WIDTH*i],SSD1306_WIDTH);
-    }
+        for(uint8_t i = 0; i < SSD1306_HEIGHT/8; i++) {
+            ssd1306_WriteCommand(0xB0 + i); // Set the current RAM page address.
+            ssd1306_WriteCommand(0x00 + SSD1306_X_OFFSET_LOWER);
+            ssd1306_WriteCommand(0x10 + SSD1306_X_OFFSET_UPPER);
+            // #ifndef USE_DMA
+                ssd1306_WriteData(&SSD1306_Buffer[SSD1306_WIDTH*i],SSD1306_WIDTH);
+            // #else
+                // while(!LL_DMA_IsEnabledStream(DMA1,LL_DMA_STREAM_0));
+                // SPI1_DMAWrite(&SSD1306_Buffer[SSD1306_WIDTH*i],SSD1306_WIDTH);
+            //     // SPI1_DMA_Put_Flag = 0;
+            // #endif
+        }
 }
 
 /*
@@ -210,6 +226,32 @@ void ssd1306_UpdateScreen(void) {
  * Y => Y Coordinate
  * color => Pixel color
  */
+
+// #ifdef USE_DMA
+// void ssd1306_DrawPixel(uint8_t x, uint8_t y, SSD1306_COLOR color)
+// {
+//     if(x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT) {
+//         // Don't write outside the buffer
+//         return;
+//     }
+
+// 	uint8_t i, m, n;
+// 	i = y / 8;
+// 	m = y % 8;
+// 	n = 1 << m;
+// 	if (color == White)
+// 	{
+// 		OLED_DATA[i][x] |= n;
+// 	}
+// 	else
+// 	{
+// 		OLED_DATA[i][x] = ~OLED_DATA[i][x];
+// 		OLED_DATA[i][x] |= n;
+// 		OLED_DATA[i][x] = ~OLED_DATA[i][x];
+// 	}
+// }
+
+// #else
 void ssd1306_DrawPixel(uint8_t x, uint8_t y, SSD1306_COLOR color) {
     if(x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT) {
         // Don't write outside the buffer
@@ -223,7 +265,7 @@ void ssd1306_DrawPixel(uint8_t x, uint8_t y, SSD1306_COLOR color) {
         SSD1306_Buffer[x + (y / 8) * SSD1306_WIDTH] &= ~(1 << (y % 8));
     }
 }
-
+// #endif
 /*
  * Draw 1 char to the screen buffer
  * ch       => char om weg te schrijven

@@ -2,6 +2,7 @@
 #define __SSD1306_TEST_H__
 
 #include <_ansi.h>
+#include "FreeRTOS.h"
 
 _BEGIN_STD_C
 

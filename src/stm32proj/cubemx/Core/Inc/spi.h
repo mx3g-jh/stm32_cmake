@@ -29,19 +29,23 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "ssd1306.h"
+// extern volatile uint8_t SPI1_DMA_Put_Flag;
 /* USER CODE END Includes */
 
 extern SPI_HandleTypeDef hspi1;
+
+extern SPI_HandleTypeDef hspi3;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
 void MX_SPI1_Init(void);
+void MX_SPI3_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void SPI3_DMAWrite(const uint8_t *data, uint16_t len);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

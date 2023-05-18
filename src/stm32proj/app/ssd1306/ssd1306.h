@@ -65,9 +65,10 @@ _BEGIN_STD_C
 /* ^^^ I2C config ^^^ */
 
 /* vvv SPI config vvv */
-
+#if defined(USE_HAL)
 #ifndef SSD1306_SPI_PORT
 #define SSD1306_SPI_PORT        hspi2
+#endif
 #endif
 
 #ifndef SSD1306_CS_Port
@@ -91,14 +92,36 @@ _BEGIN_STD_C
 #define SSD1306_Reset_Pin       GPIO_PIN_8
 #endif
 
-/* ^^^ SPI config ^^^ */
+/* Basic operations */
+#if defined(USE_HAL)
+#define SSD1306_RST_Clr() HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_RESET)
+#define SSD1306_RST_Set() HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_SET)
 
+#define SSD1306_DC_Clr() HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_RESET)
+#define SSD1306_DC_Set() HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_SET)
+
+#define SSD1306_Select() HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET)
+#define SSD1306_UnSelect() HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET)
+#else
+#define SSD1306_RST_Clr() LL_GPIO_ResetOutputPin(SSD1306_Reset_Port, SSD1306_Reset_Pin)
+#define SSD1306_RST_Set() LL_GPIO_SetOutputPin(SSD1306_Reset_Port, SSD1306_Reset_Pin)
+
+#define SSD1306_DC_Clr() LL_GPIO_ResetOutputPin(SSD1306_DC_Port, SSD1306_DC_Pin)
+#define SSD1306_DC_Set() LL_GPIO_SetOutputPin(SSD1306_DC_Port, SSD1306_DC_Pin)
+
+#define SSD1306_Select() LL_GPIO_ResetOutputPin(SSD1306_CS_Port, SSD1306_CS_Pin)
+#define SSD1306_UnSelect() LL_GPIO_SetOutputPin(SSD1306_CS_Port, SSD1306_CS_Pin)
+#endif
+
+/* ^^^ SPI config ^^^ */
+#if defined(USE_HAL)
 #if defined(SSD1306_USE_I2C)
 extern I2C_HandleTypeDef SSD1306_I2C_PORT;
 #elif defined(SSD1306_USE_SPI)
 extern SPI_HandleTypeDef SSD1306_SPI_PORT;
 #else
 #error "You should define SSD1306_USE_SPI or SSD1306_USE_I2C macro!"
+#endif
 #endif
 
 // SSD1306 OLED height in pixels

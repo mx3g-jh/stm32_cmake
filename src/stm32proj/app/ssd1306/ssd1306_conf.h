@@ -7,6 +7,12 @@
 #define __SSD1306_CONF_H__
 
 #include "main.h"
+
+// #define USE_LL
+
+#ifndef USE_LL
+#define USE_HAL
+#endif
 // Choose a microcontroller family
 // #define STM32F0
 //#define STM32F1
@@ -19,7 +25,7 @@
 //#define STM32F7
 //#define STM32G0
 
-#define USE_DMA
+// #define USE_DMA
 
 // Choose a bus
 // #define SSD1306_USE_I2C

@@ -31,8 +31,9 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-/* 定义 DMA 完成标志位 */
-uint32_t dma_tx_complete = 0;
+#include <stdbool.h>
+#include "lvgl.h"
+extern volatile bool spi3_transmit_complete;
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -58,6 +59,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DC_TFT_Pin GPIO_PIN_2
+#define DC_TFT_GPIO_Port GPIOE
+#define BLK_TFT_Pin GPIO_PIN_3
+#define BLK_TFT_GPIO_Port GPIOE
+#define CS1_TFT_Pin GPIO_PIN_4
+#define CS1_TFT_GPIO_Port GPIOE
+#define CS2_TFT_Pin GPIO_PIN_5
+#define CS2_TFT_GPIO_Port GPIOE
+#define PEN_TFT_Pin GPIO_PIN_6
+#define PEN_TFT_GPIO_Port GPIOE
 #define BLUE_LED_Pin GPIO_PIN_13
 #define BLUE_LED_GPIO_Port GPIOC
 #define RES_Pin GPIO_PIN_0
@@ -68,6 +79,28 @@ void Error_Handler(void);
 #define CS_GPIO_Port GPIOA
 #define BLK_Pin GPIO_PIN_3
 #define BLK_GPIO_Port GPIOA
+#define TFT_SCK_Pin GPIO_PIN_10
+#define TFT_SCK_GPIO_Port GPIOC
+#define TFT_MISO_Pin GPIO_PIN_11
+#define TFT_MISO_GPIO_Port GPIOC
+#define TFT_MOSI_Pin GPIO_PIN_12
+#define TFT_MOSI_GPIO_Port GPIOC
+#define BUTTON_UP_Pin GPIO_PIN_1
+#define BUTTON_UP_GPIO_Port GPIOD
+#define BUTTON_DWN_Pin GPIO_PIN_3
+#define BUTTON_DWN_GPIO_Port GPIOD
+#define BUTTON_LFT_Pin GPIO_PIN_4
+#define BUTTON_LFT_GPIO_Port GPIOD
+#define BUTTON_RHT_Pin GPIO_PIN_5
+#define BUTTON_RHT_GPIO_Port GPIOD
+#define BUTTON_MID_Pin GPIO_PIN_6
+#define BUTTON_MID_GPIO_Port GPIOD
+#define BUTTON_SET_Pin GPIO_PIN_7
+#define BUTTON_SET_GPIO_Port GPIOD
+#define BUTTON_RST_Pin GPIO_PIN_3
+#define BUTTON_RST_GPIO_Port GPIOB
+#define RES_TFT_Pin GPIO_PIN_1
+#define RES_TFT_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
 
