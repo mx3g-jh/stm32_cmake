@@ -324,8 +324,8 @@ void ILI9341_InvertColors(bool invert) {
 }
 
 
-uint16_t ILI9341_setAddressWindowToWrite(uint16_t x, uint16_t y, uint16_t w, uint16_t h){
-    uint32_t size = -1;
+void ILI9341_setAddressWindowToWrite(uint16_t x, uint16_t y, uint16_t w, uint16_t h){
+
     // if((x >= ILI9341_WIDTH) || (y >= ILI9341_HEIGHT)) return;
     // if((x + w - 1) >= ILI9341_WIDTH) w = ILI9341_WIDTH - x;
     // if((y + h - 1) >= ILI9341_HEIGHT) h = ILI9341_HEIGHT - y;
@@ -333,7 +333,29 @@ uint16_t ILI9341_setAddressWindowToWrite(uint16_t x, uint16_t y, uint16_t w, uin
     ILI9341_Select();
     ILI9341_SetAddressWindow(x, y, w, h);
     HAL_GPIO_WritePin(ILI9341_DC_GPIO_Port, ILI9341_DC_Pin, GPIO_PIN_SET);
-    size = (w - x + 1) * (h - y + 1);
-    return size;
 
+}
+
+/**
+ * @brief	显示图片
+ *
+ * @remark	Image2Lcd取模方式：	C语言数据/水平扫描/16位真彩色(RGB565)/高位在前		其他的不要选
+ *
+ * @param   x,y		起点坐标
+ * @param   width	图片宽度
+ * @param   height	图片高度
+ * @param   p		图片缓存数据起始地址
+ *
+ * @return  void
+ */
+void ILI9341_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint8_t *p)
+{
+    if(x + width > ILI9341_WIDTH || y + height > ILI9341_HEIGHT)
+    {
+        return;
+    }
+    ILI9341_setAddressWindowToWrite(x, y, x + width - 1, y + height - 1);
+
+    ILI9341_WriteData((uint8_t *)p, width * height * 2);
+    // ILI9341_Unselect();
 }

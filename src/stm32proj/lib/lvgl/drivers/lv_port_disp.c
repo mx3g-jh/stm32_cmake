@@ -169,29 +169,7 @@ static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_colo
 {
     if(disp_flush_enabled) {
         /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one*/
-
-        int32_t x;
-        int32_t y;
-        uint16_t size = 2 *  ILI9341_setAddressWindowToWrite(area->x1,area->y1,area->x2,area->y2);
- 
-        // (area->y2 - area->y1) * (area->x2 - area->x1);
-        uint8_t data[size];
-        uint16_t index = 0;
-        for(y = area->y2; y > area->y1; y--) {
-            for(x = area->x2; x > area->x1; x--) {
-                /*Put a pixel to the display. For example:*/
-                /*put_px(x, y, *color_p)*/
-                // ILI9341_DrawPixel(x,y,color_p->full);
-                // ssd1306_DrawPixel(x,y,color_p->full);
-                data[index] = (color_p->full >> 8);
-                data[index+1] =(color_p->full & 0xFF);
-                color_p++;
-                index +=2;
-            }
-        }
-
-        SPI3_DMAWrite(data,size);
-        ILI9341_Unselect();
+        ILI9341_Show_Image(area->x1,area->y1,area->x2-area->x1+1,area->y2-area->y1+1,(uint8_t *)color_p);
     }
 
     /*IMPORTANT!!!

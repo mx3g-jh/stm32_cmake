@@ -94,7 +94,7 @@ void MX_SPI3_Init(void)
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   hspi3.Init.CRCPolynomial = 0x0;
-  hspi3.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+  hspi3.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
   hspi3.Init.NSSPolarity = SPI_NSS_POLARITY_LOW;
   hspi3.Init.FifoThreshold = SPI_FIFO_THRESHOLD_01DATA;
   hspi3.Init.TxCRCInitializationPattern = SPI_CRC_INITIALIZATION_ALL_ZERO_PATTERN;
@@ -202,7 +202,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     hdma_spi3_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
     hdma_spi3_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
     hdma_spi3_tx.Init.Mode = DMA_NORMAL;
-    hdma_spi3_tx.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_spi3_tx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     hdma_spi3_tx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
     hdma_spi3_tx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
     hdma_spi3_tx.Init.MemBurst = DMA_MBURST_SINGLE;

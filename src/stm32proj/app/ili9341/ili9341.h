@@ -7,7 +7,7 @@
 #include "spi.h"
 #include "main.h"
 // #include "FreeRTOS.h"
-// #define USE_DMA
+#define USE_DMA
 #define ILI9341_MADCTL_MY  0x80
 #define ILI9341_MADCTL_MX  0x40
 #define ILI9341_MADCTL_MV  0x20
@@ -82,5 +82,6 @@ void ILI9341_FillScreen(uint16_t color);
 void ILI9341_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t* data);
 void ILI9341_InvertColors(bool invert);
 
-uint16_t ILI9341_setAddressWindowToWrite(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+void ILI9341_setAddressWindowToWrite(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+void ILI9341_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint8_t *p);
 #endif // __ILI9341_H__
